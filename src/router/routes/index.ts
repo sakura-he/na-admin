@@ -37,10 +37,9 @@ function coverRoute(asyncRoute: any, parentPath: string): RouteRecordRaw {
     if (asyncRoute.meta.type === MenuEnum["Catelog"] && asyncRoute.children && asyncRoute.children.length) {
         routeRecordRaw.component = RouterView;
     } else if (routeRecordRaw.meta?.link && routeRecordRaw.meta?.iframe) {
-        // 外部窗口
-        routeRecordRaw.component = IframeComponent
+        // 内嵌iframe 不返回任何组件
     } else if (routeRecordRaw.meta?.link) {
-        // 内嵌 iframe
+        // 外部打开
         routeRecordRaw.component = LinkComponent
     } else {
         // 不是目录,去views目录中寻找对应的vue页面

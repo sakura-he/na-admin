@@ -156,6 +156,30 @@
 					"noAffix": true,
 					"ignoreCache": false
 				}
+			},
+			{
+				"name": "bing",
+				"component": "",
+				"path": "bing",
+				"meta": {
+					"type": 2,
+					"title": "外链测试2 bing",
+					"layout": "LayoutSide",
+					"roles": [
+						"admin"
+					],
+					"link":"https://bing.com",
+					"iframe":true,
+					"requiresAuth": true,
+					"icon": "icon-link",
+					"locale": "string",
+					"hideInMenu": false,
+					"hideChildrenInMenu": false,
+					"activeMenu": "string",
+					"order": 1,
+					"noAffix": false,
+					"ignoreCache": false
+				}
 			}
 		]
 	},
