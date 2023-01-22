@@ -1,20 +1,20 @@
+import { router } from "@/router";
+import { WHITE_LIST } from "@/router/routes/constant";
 import createCache from "@/utils/cache";
 import { defineStore } from "pinia";
-import { RouteLocationNormalized, RouteLocationNormalizedLoaded, Router, useRouter } from "vue-router";
-import { WHITE_LIST } from "@/router/routes/constant";
-import { router } from "@/router";
+import { RouteLocationNormalized } from "vue-router";
 const STORE_ID = "mutiple_tab";
 type TTabRoute = Omit<RouteLocationNormalized, "matched" | "redirectedFrom">;
 interface IMultipleTabState {
     tabs: TTabRoute[];
-    cacheList: string[];
+    cacheList: Set<string>;
 }
 let cache = createCache(STORE_ID);
 export const useMultipleTabs = defineStore(STORE_ID, {
     state: (): IMultipleTabState => {
         return {
             tabs: [],
-            cacheList: [],
+            cacheList: new Set(),
         };
     },
     actions: {
@@ -25,6 +25,7 @@ export const useMultipleTabs = defineStore(STORE_ID, {
             }
             this.tabs.push(route);
             this.updateCacheList();
+
         },
         // 是否允许添加新的路由对象到数组中
         canAddRoute(route: TTabRoute): boolean {
@@ -34,18 +35,18 @@ export const useMultipleTabs = defineStore(STORE_ID, {
         },
         // 根据当前打开的标签页更新缓存的页面组件
         updateCacheList() {
-            let newTabs: string[] = [];
+            let newCacheList: typeof this.cacheList = new Set();
             this.tabs.forEach((tab) => {
-                if (this.canCacheTab(tab, newTabs)) {
-                    newTabs.push(tab.name as string);
+                if (this.canCacheTab(tab)) {
+                    newCacheList.add(tab.name as string);
                 }
             });
-            this.cacheList = newTabs;
+            this.cacheList = newCacheList;
         },
 
-        // 是否缓存标签页
-        canCacheTab(route: TTabRoute, arr: string[]): boolean {
-            if (!route.name || typeof route.name == "symbol" || route?.meta?.ignoreCache || WHITE_LIST.includes(route.name!) || arr.includes(route.name)) {
+        // 判断是否缓存标签页
+        canCacheTab(route: TTabRoute): boolean {
+            if (!route.name || typeof route.name == "symbol" || route?.meta?.ignoreCache || WHITE_LIST.includes(route.name!)) {
                 return false;
             }
             return true;
@@ -60,34 +61,23 @@ export const useMultipleTabs = defineStore(STORE_ID, {
             } else {
                 this.tabs.splice(index, 1);
             }
-            console.log(currentRoute);
             // 在keep-alive的缓存数组中同时一并删除(currentRouter是.value不存在)
             this.updateCacheList();
         },
         // 关闭当前标签页
         closeCurrentTab(index: number) {
-            if (index >= this.tabs.length - 1) {
-                // 当前打开的页面为最后一个标签页,关闭后激活剩余标签页的最后一个标签
+            if (index === this.tabs.length - 1) {
+                // 当前打开的页面为最右侧的标签页,关闭后激活剩余标签页的最后一个标签
                 this.tabs.pop();
-                // 跳转到
-                router.replace({
-                    name: this.tabs[this.tabs.length - 1].name!,
-                });
+                this.tabs.length && router.replace(this.tabs[this.tabs.length - 1].fullPath);
             } else {
                 // 不是最后的标签,关闭后激活右侧的标签
-                router.replace({
-                    name: this.tabs[index + 1].name!,
-                });
                 this.tabs.splice(index, 1);
+                router.replace(this.tabs[index].fullPath);
+
             }
         },
-        closeCacheTab(name: string) {
-            let cacheTabIndex = this.cacheList.findIndex((item) => item === name);
-            if (cacheTabIndex >= 0) {
-                this.cacheList.splice(cacheTabIndex, 1);
-            }
-        },
-        // 关闭右侧标签页
+        // 关闭指定标签页的右侧标签页
         closeRigthTabs(tabIndex: number) {
             let currentRoute = router.currentRoute.value;
             let newTabs: TTabRoute[];
@@ -166,15 +156,16 @@ export const useMultipleTabs = defineStore(STORE_ID, {
     },
 });
 
-// type useUserStoreType = typeof useUserStore;
-// // 监听state指定键值改变并持久化到本地存储
-// export function presistedUserStore(store: ReturnType<useUserStoreType>) {
-// 	console.log("开始监听");
-// 	store.$subscribe(
-// 		(mutation, state) => {
-// 			console.log("监听到改变了");
-// 			cache.setCache("token", state.tabs);
-// 		},
-// 		{ detached: true }
-// 	);
-// }
+type useUserStoreType = typeof useMultipleTabs;
+// 监听state指定键值改变并持久化到本地存储
+export function subscribeMultipleTabsStore(store: ReturnType<useUserStoreType>) {
+    console.log("开始监听");
+    store.$subscribe(
+        (mutation, state) => {
+            if (!state.tabs.length) {
+                router.push('/')
+            }
+        },
+        { detached: true }
+    );
+}

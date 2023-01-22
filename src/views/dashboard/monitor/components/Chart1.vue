@@ -76,9 +76,10 @@ const option = useChartOption((dark) => {
         },
         series: [
             {
+                
                 type: "line",
                 name: "sale",
-
+                smooth: 0.4,
                 areaStyle: {
                     color: {
                         type: "linear",

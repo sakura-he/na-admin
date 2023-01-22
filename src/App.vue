@@ -17,14 +17,19 @@
 import Setting from "@/layout/components/Setting.vue";
 import useColorMode from "@/hooks/useColorMode";
 import Layout from "@/layout/Layout.vue";
-import { useConfigStore, presistedConfigStore } from "@/store/modules/config/index";
 import { deviceEnum } from "@/store/modules/config/types";
-import { presistedUserStore, useUserStore } from "@/store/modules/user";
+import {
+    useUserStore, subscribeUserStore,
+    useConfigStore, subscribeConfigStore,
+    useMultipleTabs, subscribeMultipleTabsStore
+} from '@/store'
 import { setThemeColor } from "./utils/themeColor";
 let userStore = useUserStore();
-presistedUserStore(userStore);
+subscribeUserStore(userStore);
 let configStore = useConfigStore();
-presistedConfigStore(configStore);
+subscribeConfigStore(configStore);
+let multipleTabs = useMultipleTabs();
+subscribeMultipleTabsStore(multipleTabs);
 // 监听窗口宽度的变化,判断处于桌面端还是移动端
 let bodyResizeObserver = new ResizeObserver((entries) => {
     let width = 0;

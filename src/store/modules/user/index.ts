@@ -39,7 +39,7 @@ export const useUserStore = defineStore(STORE_ID, {
 
 type useUserStoreType = typeof useUserStore;
 // 监听state指定键值改变并持久化到本地存储
-export function presistedUserStore(store: ReturnType<useUserStoreType>) {
+export function subscribeUserStore(store: ReturnType<useUserStoreType>) {
     console.log("开始监听");
     store.$subscribe(
         (mutation, state) => {

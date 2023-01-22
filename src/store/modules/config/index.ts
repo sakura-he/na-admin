@@ -41,7 +41,7 @@ export const useConfigStore = defineStore({
 
 type useConfigStoreType = typeof useConfigStore;
 // 监听state指定键值改变并持久化到本地存储
-export function presistedConfigStore(store: ReturnType<useConfigStoreType>) {
+export function subscribeConfigStore(store: ReturnType<useConfigStoreType>) {
     store.$subscribe(
         (mutation, state) => {
             cache.setCache("config", state);

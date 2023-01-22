@@ -24,6 +24,7 @@ let router = createRouter({
             },
         },
     ],
+    scrollBehavior: () => ({ left: 0, top: 0 }),
 });
 createRouterGuard(router);
 export { router };

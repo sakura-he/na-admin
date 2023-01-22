@@ -132,54 +132,6 @@
 					"noAffix": false,
 					"ignoreCache": false
 				}
-			},
-			{
-				"name": "baidu",
-				"component": "",
-				"path": "bar",
-				"meta": {
-					"type": 2,
-					"title": "外链测试 Arco Design",
-					"layout": "LayoutSide",
-					"roles": [
-						"admin"
-					],
-					"link":"https://arco.design",
-					"iframe":true,
-					"requiresAuth": true,
-					"icon": "icon-link",
-					"locale": "string",
-					"hideInMenu": false,
-					"hideChildrenInMenu": false,
-					"activeMenu": "string",
-					"order": 1,
-					"noAffix": true,
-					"ignoreCache": false
-				}
-			},
-			{
-				"name": "bing",
-				"component": "",
-				"path": "bing",
-				"meta": {
-					"type": 2,
-					"title": "外链测试2 bing",
-					"layout": "LayoutSide",
-					"roles": [
-						"admin"
-					],
-					"link":"https://bing.com",
-					"iframe":true,
-					"requiresAuth": true,
-					"icon": "icon-link",
-					"locale": "string",
-					"hideInMenu": false,
-					"hideChildrenInMenu": false,
-					"activeMenu": "string",
-					"order": 1,
-					"noAffix": false,
-					"ignoreCache": false
-				}
 			}
 		]
 	},
@@ -226,5 +178,101 @@
 				}
 			}
 		]
+	},
+	{
+		"name": "baidu",
+		"component": "",
+		"path": "bar",
+		"meta": {
+			"type": 2,
+			"title": "Arco Design",
+			"layout": "LayoutSide",
+			"roles": [
+				"admin"
+			],
+			"link":"https://arco.design",
+			"iframe":true,
+			"requiresAuth": true,
+			"icon": "icon-code-square",
+			"locale": "string",
+			"hideInMenu": false,
+			"hideChildrenInMenu": false,
+			"activeMenu": "string",
+			"order": 1,
+			"noAffix": true,
+			"ignoreCache": false
+		}
+	},
+	{
+		"name": "vue-doc",
+		"component": "",
+		"path": "vue-doc",
+		"meta": {
+			"type": 2,
+			"title": "Vue开发文档",
+			"layout": "LayoutSide",
+			"roles": [
+				"admin"
+			],
+			"link":"https://vuejs.org/",
+			"iframe":true,
+			"requiresAuth": true,
+			"icon": "icon-code-square",
+			"locale": "string",
+			"hideInMenu": false,
+			"hideChildrenInMenu": false,
+			"activeMenu": "string",
+			"order": 1,
+			"noAffix": false,
+			"ignoreCache": false
+		}
+	},
+	{
+		"name": "bing",
+		"component": "",
+		"path": "bing",
+		"meta": {
+			"type": 2,
+			"title": "Bing",
+			"layout": "LayoutSide",
+			"roles": [
+				"admin"
+			],
+			"link":"https://bing.com",
+			"iframe":false,
+			"requiresAuth": true,
+			"icon": "icon-launch",
+			"locale": "string",
+			"hideInMenu": false,
+			"hideChildrenInMenu": false,
+			"activeMenu": "string",
+			"order": 1,
+			"noAffix": false,
+			"ignoreCache": false
+		}
+	},
+	{
+		"name": "github",
+		"component": "",
+		"path": "github",
+		"meta": {
+			"type": 2,
+			"title": "项目地址",
+			"layout": "LayoutSide",
+			"roles": [
+				"admin"
+			],
+			"link":"https://github.com/sakura-he/na-admin",
+			"iframe":false,
+			"requiresAuth": true,
+			"icon": "icon-github",
+			"locale": "string",
+			"hideInMenu": false,
+			"hideChildrenInMenu": false,
+			"activeMenu": "string",
+			"order": 1,
+			"noAffix": true,
+			"ignoreCache": false
+		}
 	}
 ]
