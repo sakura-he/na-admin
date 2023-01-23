@@ -16,7 +16,7 @@
 import { RouterView, useRoute } from "vue-router";
 import { useMultipleTabs } from "@/store/modules/mutipleTab";
 import { useConfigStore } from "@/store";
-import PageTransition from '@/layout/components/PageTransiton.vue';
+import PageTransition from '@/layout/components/PageTransition.vue';
 import Iframe from '@/layout/components/Iframe.vue'
 let currentRoute = useRoute();
 // 判断当前路由组件是不是iframe,如果是,则不在router-view中渲染,而是通过Iframe组件进行渲染

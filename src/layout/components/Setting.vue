@@ -42,37 +42,29 @@
                 <div>
                     <div class="form-item row">
                         <span class="form-item__title">页面打开动画</span>
-                        <a-dropdown @select="onOpeningAnimationSelect">
-                            <a-button>{{ configStore.openingAnimation }} <icon-down /></a-button>
-                            <template #content>
-                                <a-dgroup :title="transitionsNameGroupKey"
-                                    v-for="(transitionsNameGroup, transitionsNameGroupKey) in inTransitionNames">
-                                    <a-doption :key="transitionName" :value="transitionName"
-                                        v-for="transitionName in transitionsNameGroup">
-                                        {{
-                                            transitionName
-                                        }}
-                                    </a-doption>
-                                </a-dgroup>
-                            </template>
-                        </a-dropdown>
+                        <a-select style="width:max-content;" v-model="configStore.openingAnimation"
+                            :trigger-props="{ autoFitPopupMinWidth: true }" placeholder="请选择页面打开动画">
+                            <a-optgroup :label="transitionsNameGroupKey"
+                                v-for="(transitionsNameGroup, transitionsNameGroupKey) in inTransitionNames">
+                                <a-option v-for="transitionName in transitionsNameGroup" :value="transitionName">{{
+                                    transitionName
+                                }}</a-option>
+                            </a-optgroup>
+                        </a-select>
+
+
                     </div>
                     <div class="form-item row">
                         <span class="form-item__title">页面退出动画</span>
-                        <a-dropdown @select="onQuitAnimationSelect">
-                            <a-button>{{ configStore.quitAnimation }} <icon-down /></a-button>
-                            <template #content>
-                                <a-dgroup :title="transitionsNameGroupKey"
-                                    v-for="(transitionsNameGroup, transitionsNameGroupKey) in outTransitionNames">
-                                    <a-doption :key="transitionName" :value="transitionName"
-                                        v-for="transitionName in transitionsNameGroup">
-                                        {{
-                                            transitionName
-                                        }}
-                                    </a-doption>
-                                </a-dgroup>
-                            </template>
-                        </a-dropdown>
+                        <a-select style="width:max-content;" v-model="configStore.quitAnimation"
+                            :trigger-props="{ autoFitPopupMinWidth: true }" placeholder="请选择页面退出动画">
+                            <a-optgroup :label="transitionsNameGroupKey"
+                                v-for="(transitionsNameGroup, transitionsNameGroupKey) in outTransitionNames">
+                                <a-option v-for="transitionName in transitionsNameGroup" :value="transitionName">{{
+                                    transitionName
+                                }}</a-option>
+                            </a-optgroup>
+                        </a-select>
                     </div>
                     <!-- 动画预览 -->
                     <div class="form-item">
@@ -83,15 +75,17 @@
                                     :out-name="configStore.quitAnimation" mode="out-in">
                                     <div class="tw-bg-p-3 tw-w-full tw-h-full tw-flex tw-justify-center tw-items-center tw-text-title-1 tw-text-[#fff]"
                                         v-if="0 === transitionPreviewIndex" key="a">
-                                        A
+                                        标签页1
                                     </div>
                                     <div class="tw-bg-p-3 tw-w-full tw-h-full tw-flex tw-justify-center tw-items-center tw-text-title-1 tw-text-[#fff]"
                                         v-else key="b">
-                                        B
+                                        标签页2
                                     </div>
                                 </PageTransition>
                             </div>
+
                         </div>
+                        <div class="tw-text-body-1 tw-text-c-2 tw-text-center tw-mt-2">过渡动画预览</div>
                     </div>
                 </div>
 
@@ -118,7 +112,7 @@ import PickColors from "vue-pick-colors";
 import useColorMode from "@/hooks/useColorMode";
 import { storeToRefs } from "pinia";
 import { Ref } from "vue";
-import PageTransition from '@/layout/components/PageTransiton.vue'
+import PageTransition from '@/layout/components/PageTransition.vue'
 let transitionPreviewIndex = ref(0);
 let transitionPreviewIndexTimer = setInterval(() => {
     transitionPreviewIndex.value = transitionPreviewIndex.value ? 0 : 1;
@@ -184,83 +178,53 @@ function layoutOptionsChang(index: number, event: any) {
     }
 }
 
-let bounceIn = ['bounceIn', 'bounceIn', 'bounceInLeft', 'bounceInRight', 'bounceInUp']
-let bounceOut = ['bounceOut', 'bounceOutDown', 'bounceOutLeft', 'bounceOutRight', 'bounceOutUp']
 let fadeIn = [
-    'fadeIn',
-    'fadeInDown',
-    'fadeInDownBig',
-    'fadeInLeft',
-    'fadeInLeftBig',
-    'fadeInRight',
-    'fadeInRightBig',
-    'fadeInUp',
-    'fadeInUpBig',
-    'fadeInTopLeft',
-    'fadeInTopRight',
-    'fadeInBottomLeft',
-    'fadeInBottomRight',
+    'fade-in',
+    'fade-in-down',
+    'fade-in-left',
+    'fade-in-right',
+    'fade-in-up',
 ]
 let fadeOut = [
-    'fadeOut',
-    'fadeOutDown',
-    'fadeOutDownBig',
-    'fadeOutLeft',
-    'fadeOutLeftBig',
-    'fadeOutRight',
-    'fadeOutRightBig',
-    'fadeOutUp',
-    'fadeOutUpBig',
-    'fadeOutTopLeft',
-    'fadeOutTopRight',
-    'fadeOutBottomRight',
-    'fadeOutBottomLeft',
-]
-let lightSpeedIn = [
-    'lightSpeedInRight',
-    'lightSpeedInLeft',
-]
-let lightSpeedOut = [
-    'lightSpeedOutRight',
-    'lightSpeedOutLeft',
+    'fade-out',
+    'fade-out-down',
+    'fade-out-left',
+    'fade-out-right',
+    'fade-out-up',
 ]
 let zoomIn = [
-    'zoomIn',
-    'zoomInDown',
-    'zoomInLeft',
-    'zoomInRight',
-    'zoomInUp',
+    'zoom-in',
+    'zoom-in-down',
+    'zoom-in-left',
+    'zoom-in-right',
+    'zoom-in-up',
 ]
 let zoomOut = [
-    'zoomOut',
-    'zoomOutDown',
-    'zoomOutLeft',
-    'zoomOutRight',
-    'zoomOutUp',
+    'zoom-out',
+    'zoom-out-down',
+    'zoom-out-left',
+    'zoom-out-right',
+    'zoom-out-up',
 ]
 let slideIn = [
-    'slideInDown',
-    'slideInLeft',
-    'slideInRight',
-    'slideInUp',
+    'slide-in-down',
+    'slide-in-left',
+    'slide-in-right',
+    'slide-in-up',
 ]
 let slideOut = [
-    'slideOutDown',
-    'slideOutLeft',
-    'slideOutRight',
-    'slideOutUp',
+    'slide-out-down',
+    'slide-out-left',
+    'slide-out-right',
+    'slide-out-up',
 ]
 let transitionIns = {
-    bounceIn,
     fadeIn,
-    lightSpeedIn,
     zoomIn,
     slideIn
 }
 let transitionOuts = {
-    bounceOut,
     fadeOut,
-    lightSpeedOut,
     zoomOut,
     slideOut
 }

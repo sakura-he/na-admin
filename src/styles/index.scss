@@ -2,7 +2,7 @@
 @import './common.scss';
 @import './variable.scss';
 @import './global.scss';
-@import './transition.scss';
+@import './transition/index.scss';
 
 @tailwind base;
 @tailwind components;

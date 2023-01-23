@@ -144,7 +144,7 @@ let currentTabIndex = computed(() => {
     position: absolute;
     top: 0;
     left: 0;
-    padding-right: var(--size-4);
+    padding-right: var(--size-3);
     box-sizing: border-box;
     background-color: var(--color-bg-opacity-2);
     backdrop-filter: blur(25px);
@@ -179,7 +179,7 @@ let currentTabIndex = computed(() => {
 }
 
 :deep(.arco-tabs-nav-type-line .arco-tabs-tab) {
-    margin-left: var(--size-4);
-    margin-right: var(--size-4);
+    margin-left: var(--size-3) ;
+    margin-right: var(--size-3);
 }
 </style>
