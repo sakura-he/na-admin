@@ -15,8 +15,8 @@
 	"serverMenu": [],
 	"showTabsPinIcon": false,
 	"translucent": true,
-	"openingAnimation":"fadeIn",
-	"quitAnimation":"fadeOutRight",
+	"openingAnimation":"fade-in",
+	"quitAnimation":"fade-out-right",
 	"animationSync":false
 
 }
