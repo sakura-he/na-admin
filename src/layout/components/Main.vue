@@ -4,7 +4,7 @@
         <router-view v-slot="{ Component, route }" v-if="showRouter">
             <PageTransition mode="out-in" :in-name="configStore.openingAnimation" :out-name="configStore.quitAnimation">
                 <keep-alive :include="cacheList">
-                    <component :is="Component" :key="route.fullPath" v-show="!isIframe"   />
+                    <component :is="Component" :key="route.fullPath" v-show="!isIframe" />
                 </keep-alive>
             </PageTransition>
         </router-view>
@@ -24,7 +24,7 @@ let isIframe = computed(() => (currentRoute.meta?.link && currentRoute.meta?.ifr
 let configStore = useConfigStore();
 let multipleTabs = useMultipleTabs();
 let cacheList = computed(() => {
-    return multipleTabs.cacheList;
+    return Array.from(multipleTabs.cacheList);
 });
 let showRouter = inject("showRouter")!;  // 控制刷新
 

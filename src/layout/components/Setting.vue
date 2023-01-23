@@ -72,14 +72,14 @@
                             class="tw-mx-auto tw-w-1/3 tw-h-[50px] tw-border-2 tw-border-solid tw-p-[2px] tw-rounded tw-border-p-5 tw-overflow-hidden ">
                             <div class="tw-h-full tw-relative ">
                                 <PageTransition :in-name="configStore.openingAnimation"
-                                    :out-name="configStore.quitAnimation" mode="out-in">
+                                    :out-name="configStore.quitAnimation" mode="out-in" :duration="0.3">
                                     <div class="tw-bg-p-3 tw-w-full tw-h-full tw-flex tw-justify-center tw-items-center tw-text-title-1 tw-text-[#fff]"
                                         v-if="0 === transitionPreviewIndex" key="a">
-                                        标签页1
+                                        标签页 A
                                     </div>
                                     <div class="tw-bg-p-3 tw-w-full tw-h-full tw-flex tw-justify-center tw-items-center tw-text-title-1 tw-text-[#fff]"
                                         v-else key="b">
-                                        标签页2
+                                        标签页 B
                                     </div>
                                 </PageTransition>
                             </div>
