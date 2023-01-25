@@ -1,29 +1,14 @@
 <template>
     <!-- 左侧logo -->
-    <a-row
-        align="center"
-        class="container"
-    >
+    <a-row align="center" class="container">
         <!-- 左侧logo -->
-        <a-col
-            :flex="`${menuWidth}`"
-            class="left"
-        >
-            <div
-                class="left-side"
-                :class="[menuCollapse ? 'collapse' : '']"
-            >
+        <a-col :flex="`${menuWidth}`" class="left">
+            <div class="left-side" :class="[menuCollapse ? 'collapse' : '']">
                 <div class="logo">
-                    <img
-                        src="@/assets/logo.svg"
-                        alt=""
-                    />
+                    <img src="@/assets/logo.svg" alt="" />
                 </div>
                 <transition name="title">
-                    <h1
-                        class="title"
-                        v-show="!menuCollapse"
-                    >
+                    <h1 class="title" v-show="!menuCollapse">
                         Nest Arco Admin
                     </h1>
                 </transition>
@@ -31,16 +16,9 @@
         </a-col>
         <a-col flex="initial">
             <!-- 控制侧边菜单折叠按钮(手机模式下现实) -->
-            <a-button
-                type="text"
-                class="nav-btn"
-                @click="updateMenuCollapse(!menuCollapse)"
-                v-if="configStore.device <= deviceEnum['sm']"
-            >
-                <template
-                    #icon
-                    color="#333"
-                >
+            <a-button type="text" class="nav-btn" @click="updateMenuCollapse(!menuCollapse)"
+                v-if="configStore.device <= deviceEnum['sm']">
+                <template #icon color="#333">
                     <!-- 已隐藏 -->
                     <icon-menu-fold v-if="menuCollapse" />
                     <!-- 已展开 -->
@@ -48,98 +26,46 @@
                 </template>
             </a-button>
             <!--刷新按钮 -->
-            <a-button
-                type="text"
-                class="nav-btn"
-            >
-                <template
-                    #icon
-                    color="#333"
-                >
+            <a-button type="text" class="nav-btn">
+                <template #icon color="#333">
                     <Refresh />
                 </template>
             </a-button>
         </a-col>
-        <a-col
-            flex="1"
-            v-if="configStore.device > deviceEnum['sm']"
-        >
+        <a-col flex="1" v-if="configStore.device > deviceEnum['sm']">
             <a-breadcrumb>
-                <a-breadcrumb-item
-                    :key="item.name"
-                    v-for="item in breadcurmb"
-                >
+                <a-breadcrumb-item :key="item.name" v-for="item in breadcurmb">
                     {{ item.meta.title }}
                 </a-breadcrumb-item>
             </a-breadcrumb>
         </a-col>
         <!-- 右侧按钮组 -->
-        <a-col
-            flex="initial"
-            class="right-side__col"
-        >
+        <a-col flex="initial" class="right-side__col">
             <!-- 顶部导航栏按钮组 -->
             <a-space>
                 <!-- 颜色模式切换 -->
-                <a-popover
-                    trigger="hover"
-                    position="bottom"
-                    :content-class="style['color-radio-outer']"
-                >
-                    <a-button
-                        type="secondary"
-                        shape="circle"
-                        class="right-side__btn"
-                        @click="toggleColorMode"
-                    >
-                        <DynamicIcon :icon="currentColorModeIcon" />
+                <ColorModeSwitch v-slot="icon">
+                    <a-button :shape="'circle'">
+                        <template v-slot:icon>
+                            <DynamicIcon :icon="icon.icon" />
+                        </template>
                     </a-button>
-                    <template v-slot:content>
-                        <a-radio-group
-                            type="button"
-                            size="large"
-                            class="theme-radio"
-                            @change="onColorModeRadioChange"
-                            :model-value="colorMode"
-                        >
-                            <a-radio :value="colorModeEnum['LIGHT']">
-                                <icon-sun />
-                            </a-radio>
-                            <a-radio :value="colorModeEnum['DARK']">
-                                <icon-moon-fill />
-                            </a-radio>
-                            <a-radio :value="colorModeEnum['AUTO']">跟随系统</a-radio>
-                        </a-radio-group>
-                    </template>
-                </a-popover>
+
+                </ColorModeSwitch>
                 <!-- 全屏按钮 -->
-                <a-button
-                    type="secondary"
-                    shape="circle"
-                    class="right-side__btn"
-                    @click="toggleFullscreen"
-                >
+                <a-button type="secondary" shape="circle" class="right-side__btn" @click="toggleFullscreen">
                     <icon-fullscreen v-show="!isFullscreen" />
                     <icon-fullscreen-exit v-show="isFullscreen" />
                 </a-button>
                 <!-- 设置按钮 -->
-                <a-button
-                    type="secondary"
-                    shape="circle"
-                    class="right-side__btn"
-                    @click="onSetting"
-                >
+                <a-button type="secondary" shape="circle" class="right-side__btn" @click="onSetting">
                     <icon-settings />
                 </a-button>
             </a-space>
             <!-- 右侧头像 -->
             <a-dropdown trigger="hover">
                 <div class="right-side__avatar">
-                    <img
-                        src="@/assets/avatar.png"
-                        alt=""
-                        class="right-side__avatar-img"
-                    />
+                    <img src="@/assets/avatar.png" alt="" class="right-side__avatar-img" />
                 </div>
                 <template v-slot:content>
                     <a-doption>
@@ -165,11 +91,11 @@ import { useUserStore, useConfigStore, useNavigateStore } from "@/store";
 // 刷新按钮组件，复用
 import Refresh from "./Refresh.vue";
 import { deviceEnum } from "@/store/modules/config/types";
-import useColorMode, { colorModeEnum } from "@/hooks/useColorMode";
+import DynamicIcon from "@/components/DynamicIcon.vue";
 import { useFullscreen } from "@vueuse/core";
 import { Ref } from "vue";
-import DynamicIcon from "./DynamicIcon.vue";
-let style = useCssModule("header");
+import ColorModeSwitch from './ColorModeSwitch.vue'
+
 let userStore = useUserStore();
 let configStore = useConfigStore();
 let navigateStore = useNavigateStore();
@@ -181,23 +107,6 @@ let menuWidth = computed(() => {
     return configStore.menuWidth + "px";
 });
 let styleMenuWidth = computed(() => configStore.menuWidth + "px");
-let { value: colorMode, setColorMode, isDarkMode, themeChangeCallback } = useColorMode();
-let currentColorModeIcon = computed(() => {
-    if (colorMode.value === colorModeEnum["AUTO"]) return "icon-desktop";
-    if (colorMode.value === colorModeEnum["DARK"]) return "icon-moon-fill";
-    if (colorMode.value === colorModeEnum["LIGHT"]) return "icon-sun";
-});
-function onColorModeRadioChange(evt: any) {
-    setColorMode(evt);
-}
-function toggleColorMode() {
-    if (isDarkMode.value) {
-        setColorMode(colorModeEnum["LIGHT"]);
-    } else {
-        setColorMode(colorModeEnum["DARK"]);
-    }
-}
-
 // 打开全局设置
 function onSetting() {
     configStore.globalSettings = !configStore.globalSettings;
@@ -223,11 +132,13 @@ let { isFullscreen, toggle: toggleFullscreen } = useFullscreen();
     background-color: var(--color-bg-opacity-2);
     backdrop-filter: blur(25px) saturate(150%);
 }
+
 .left {
     transition: flex 0.2s;
     min-width: 0;
     overflow: hidden;
 }
+
 .left-side {
     display: flex;
     transition: width 0.2s;
@@ -237,16 +148,19 @@ let { isFullscreen, toggle: toggleFullscreen } = useFullscreen();
     align-items: center;
     height: 60px;
     overflow: hidden;
+
     &.collapse {
         padding: 0;
         justify-content: center;
     }
+
     .logo {
         flex: none;
         width: 30px;
         height: 30px;
         min-width: 0;
     }
+
     .title {
         min-width: 0;
         flex: none;
@@ -265,7 +179,7 @@ let { isFullscreen, toggle: toggleFullscreen } = useFullscreen();
     margin-left: auto;
 }
 
-.right-side__col > * {
+.right-side__col>* {
     margin-left: 20px;
 }
 
@@ -294,26 +208,15 @@ let { isFullscreen, toggle: toggleFullscreen } = useFullscreen();
 .right-side__avatar-img {
     width: 100%;
 }
-:deep(.nav-btn) {
-    color: var(--color-text-2) !important;
-}
-.theme-radio {
-    border-radius: 999vw !important;
-    padding: 3px;
-}
 
-:deep(.arco-radio-button) {
-    border-radius: 999vw !important;
-}
+
+
 .title-enter-from {
     opacity: 0;
 }
+
 .title-enter-active {
     transition: all 0.2s;
 }
 </style>
-<style lang="scss" module="header">
-.color-radio-outer {
-    padding: 5px 10px !important;
-}
-</style>
+

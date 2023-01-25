@@ -110,7 +110,7 @@
 
 <script lang="ts" setup>
 import IconSelectorVue from "@/components/IconSelector.vue";
-import DynamicIcon from "@/layout/components/DynamicIcon.vue";
+import DynamicIcon from "@/components/DynamicIcon.vue";
 import { reactive } from "vue";
 import { MenuEnum } from "@/router/type";
 import { MenuStatusEnum, MenuDataType } from "./../types";
