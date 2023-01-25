@@ -87,7 +87,7 @@
 
 <script setup lang="ts">
 import { useMultipleTabs } from "@/store/modules/mutipleTab/index";
-import DynamicIcon from "./DynamicIcon.vue";
+import DynamicIcon from "../../components/DynamicIcon.vue";
 import { useRouter } from "vue-router";
 import { Ref } from "vue";
 import { useConfigStore } from "@/store";

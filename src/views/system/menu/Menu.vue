@@ -63,7 +63,7 @@
 </template>
 
 <script setup lang="ts">
-import DynamicIcon from "@/layout/components/DynamicIcon.vue";
+import DynamicIcon from "@/components/DynamicIcon.vue";
 import MenuDetailForm from "./components/MenuDetailForm.vue";
 import { useNavigateStore } from "@/store";
 import { IMenuBreadcrumb } from "@/utils/breadcrumb";

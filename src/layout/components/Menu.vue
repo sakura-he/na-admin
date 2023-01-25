@@ -4,7 +4,7 @@ import { useUserStore } from "@/store/modules/user";
 import { h, ref, resolveComponent, VNode, Ref } from "vue";
 import { useRouter } from "vue-router";
 import { useNavigateStore } from "@/store/modules/navigate";
-import DynamicIcon from "./DynamicIcon.vue";
+import DynamicIcon from "../../components/DynamicIcon.vue";
 export default defineComponent({
     setup() {
         let openMenus: string[] = reactive([]);
