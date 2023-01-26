@@ -187,8 +187,8 @@ function onLogin() {
             setLoading(false);
         });
 }
+// 获取手机验证码
 function getPhoneCode() {
-    console.log('heoo')
     if (count.value <= 0) {
         start(60);
     }

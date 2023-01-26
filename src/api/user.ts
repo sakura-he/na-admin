@@ -12,6 +12,6 @@ export function login({ username, password }: ILoginData) {
 export function getMenuList() {
     return request.get("/api/user/menu");
 }
-export function getUserPermission() {
-    return request.get("/api/user/permission");
+export function getUserInfo(token: string) {
+    return request.post("/api/user/info", { token });
 }

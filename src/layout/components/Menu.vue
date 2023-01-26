@@ -2,6 +2,7 @@
 import { MenuEnum } from "@/router/type";
 import { useUserStore } from "@/store/modules/user";
 import { h, ref, resolveComponent, VNode, Ref } from "vue";
+import { cloneDeep } from 'lodash'
 import { useRouter } from "vue-router";
 import { useNavigateStore } from "@/store/modules/navigate";
 import DynamicIcon from "../../components/DynamicIcon.vue";
@@ -22,10 +23,9 @@ export default defineComponent({
             }
         );
 
-        //  后台返回的路由数组
-        let asyncMenuListRaw = toRaw(navigateStore.asyncMenuList);
         // 点击菜单项跳转指定的路径
         function onMenuItemClick(key: string) {
+            let asyncMenuListRaw = toRaw(navigateStore.asyncMenuList)
             // arco返回的key的格式为 "1-2-2" 层级用-分隔; 需要获取到每层的路由对象
             // indexArr是分割后的菜单项,在父菜单中的层级索引
             let indexArr = key.split("-").map((item) => Number.parseInt(item));
@@ -44,13 +44,13 @@ export default defineComponent({
             let currentFlatMenus = getPath(asyncMenuListRaw, indexArr);
             console.log(currentFlatMenus)
             if (currentFlatMenus.length) {
-                let fullPath:string;
+                let fullPath: string;
                 fullPath = currentFlatMenus.map((menu: any) => ('/' + menu.path)).join('');
                 router.push(fullPath)
             }
 
         }
-        // 生成菜单项
+        // 根据菜单对象生成子菜单模板片段
         function createMenu(asyncMenuList: any[], floor: number[] = []) {
             return asyncMenuList.map((item, index) => {
                 let newFloor = [...floor, index];
@@ -92,9 +92,10 @@ export default defineComponent({
                 }
             });
         }
-
         // 菜单项jsx
         const subMenu = computed(() => {
+            //  后台返回的路由数组
+            let asyncMenuListRaw = cloneDeep(toRaw(navigateStore.asyncMenuList))
             return createMenu(asyncMenuListRaw);
         });
         return () => (
