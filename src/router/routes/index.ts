@@ -1,6 +1,6 @@
 import { RouteRecordRaw, RouterView } from "vue-router";
 import { MenuEnum } from "../type";
-import IframeComponent from '@/layout/components/Iframe.vue'
+import { hasPermission } from '@/utils/permission'
 import LinkComponent from '@/layout/components/Link.vue'
 // 匹配views里面所有的.vue文件，动态引入
 const modules = import.meta.glob("/src/views/**/*.vue");
@@ -11,6 +11,33 @@ const modules = import.meta.glob("/src/views/**/*.vue");
 export function getModulesKey() {
     return Object.keys(modules).map((item) => item.replace("/src/views/", "").replace(".vue", ""));
 }
+/**
+ * 整理路由配置对象(排序和鉴权)
+ */
+export function sortAsyncRoutes<AsyncRoutes extends Array<any>>(asyncRoutes: AsyncRoutes): AsyncRoutes {
+    // 排序路由项
+    asyncRoutes.sort((a, b) => {
+        return (a?.meta?.order || 0) - (b?.meta?.order || 0)
+    });
+    // 过滤路由项
+    asyncRoutes = asyncRoutes.filter(route => {
+        if (!hasPermission(route.meta.roles || [])) {
+            console.log('验证')
+            return false
+        }
+        if (route.children && route.children.length) {
+            route.children = sortAsyncRoutes(route.children);
+        }
+        return true
+    }) as AsyncRoutes
+    return asyncRoutes
+}
+/**
+ * 根据路由配置对象生成扁平化的路由记录并返回
+ * @param asyncRoutes object 路由配置对象
+ * @param parentPath string 父路由地址片段
+ * @returns RouteRecordRaw[]
+ */
 export function createAsyncRoutes(asyncRoutes: Array<any>, parentPath: string = "/"): RouteRecordRaw[] {
     let routeRecords: any[] = [];
     // 如果是单页,就返回单页,是目录,返回目录所有单页
@@ -43,12 +70,12 @@ function coverRoute(asyncRoute: any, parentPath: string): RouteRecordRaw {
         routeRecordRaw.component = LinkComponent
     } else {
         // 不是目录,去views目录中寻找对应的vue页面
-        routeRecordRaw.component = loadRouteView(asyncRoute.component);
+        routeRecordRaw.component = loadComponent4String(asyncRoute.component);
     }
     return routeRecordRaw;
 }
 // 根据后端的路由配置components字段值,动态加载import.meta.glob中的动态组件
-export function loadRouteView(component: string) {
+export function loadComponent4String(component: string) {
     try {
         // 在import.meta.glob生成的vue页面对象中,寻找出对应属性名包含传入的component名字符串的属性
         const findComponentPath = Object.keys(modules).find((key) => {

@@ -4,7 +4,7 @@
  * 这两种权限中的任意一种才可以渲染div
  */
 import { Directive, App } from "vue";
-import { hasPersission } from "@/utils/permission";
+import { hasPermission } from "@/utils/permission";
 // 权限验证指令
 export const DIRECTIVE_NAME = "perms";
 export let directive: Directive = {
@@ -12,7 +12,7 @@ export let directive: Directive = {
     // 及他自己的所有子节点都挂载完成后调用
     mounted(el: HTMLElement, binding, vnode, prevVnode) {
         let parentEL = el.parentNode;
-        let validate = hasPersission(binding.value);
+        let validate = hasPermission(binding.value);
         if (!validate) {
             parentEL && parentEL?.removeChild(el);
         }
@@ -25,7 +25,7 @@ export let directive: Directive = {
     // 绑定元素的父组件卸载前调用
     beforeUnmount(el, binding, vnode, prevVnode) {
         let parentEL = el.parentNode;
-        let validate = hasPersission(binding.value);
+        let validate = hasPermission(binding.value);
         if (!validate) {
             parentEL && parentEL?.removeChild(el);
         }

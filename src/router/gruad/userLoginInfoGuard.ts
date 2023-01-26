@@ -16,7 +16,7 @@ export default function setupUserLoginInfoGuard(router: Router) {
             if (navigateStore.asyncMenuList.length) {
                 next(); // 添加过路由了,继续跳转
             } else {
-                navigateStore.getAsyncMenu().then((res) => {
+                userStore.getUserInfo().then((res) => {
                     // 请求路由成功后重新跳转
                     next({ ...to, replace: true });
                 });

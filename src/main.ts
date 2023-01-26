@@ -12,7 +12,6 @@ import "@/styles/index.scss";
 // 额外引入图标库
 import ArcoVueIcon from "@arco-design/web-vue/es/icon";
 import setupGlobalDirectives from "./directives";
-import {useConfigStore} from '@/store'
 async function bootstrap() {
     const app = createApp(App);
     Message._context = app._context;

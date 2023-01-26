@@ -1,31 +1,48 @@
-import { getMenuList, ILoginData, login } from "@/api/user";
+import { ILoginData, login, getUserInfo } from "@/api/user";
 import { router } from "@/router";
-import { createAsyncRoutes, firstRoute } from "@/router/routes";
-import { NOT_FOUND_ROUTE } from "@/router/routes/base";
-import { HOME, LOGIN } from "@/router/routes/constant";
+import { LOGIN } from "@/router/routes/constant";
 import createCache, { removePrefix } from "@/utils/cache";
 import { defineStore } from "pinia";
 import { useNavigateStore } from "@/store/modules/navigate";
 const STORE_ID = "user";
 let cache = createCache(STORE_ID);
+interface IUserStoreType {
+    token: string;
+    userInfo: Record<string, any>;
+    permissions: string[];
+}
 export const useUserStore = defineStore(STORE_ID, {
-    state: () => {
+    state(): IUserStoreType {
         return {
             token: (() => cache.getCache("token") || "")(),
-
             userInfo: {},
+            permissions: [],
         };
     },
     actions: {
         async login(loginData: ILoginData) {
-            let navigateStore = useNavigateStore();
             try {
                 const res = await login(loginData);
                 let token: string = res.data;
                 this.token = token;
+                console.log('asdfasdfsadfs')
+                await this.getUserInfo();
+            } catch (error) {
+                return Promise.reject(error);
+            }
+        },
+        async getUserInfo() {
+            console.log('asdfasdf')
+            try {
+                const res = await getUserInfo(this.token);
+                console.log('asdf',res)
+                this.userInfo = res.data;
+                this.permissions = res.data.permissions
+                let navigateStore = useNavigateStore();
                 // 请求异步路由数组
                 await navigateStore.getAsyncMenu();
             } catch (error) {
+                console.log(error)
                 return Promise.reject(error);
             }
         },
