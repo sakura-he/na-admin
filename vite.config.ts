@@ -35,5 +35,6 @@ export default defineConfig({
 		alias: {
 			'@': resolve(__dirname, 'src/')
 		}
-	}
+	},
+	base:'/na-admin/'
 });
