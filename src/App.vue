@@ -1,17 +1,14 @@
 <template>
-    <!-- :class="{ ['setting-open']: configStore.globalSettings }" -->
-    <div class="page">
-        <Layout></Layout>
-    </div>
-    <!-- <transition name="setting">
-    <div class="setting" v-show="configStore.globalSettings">
-      <Setting />
-    </div>
-  </transition> -->
-    <a-drawer width="300px" v-model:visible="configStore.globalSettings" placement="right" unmountOnClose
-        v-bind:footer="false" popupContainer="body">
-        <Setting></Setting>
-    </a-drawer>
+    <a-config-provider update-at-scroll global>
+        <div class="page">
+            <Layout></Layout>
+            <a-drawer width="300px" v-model:visible="configStore.globalSettings" placement="right" unmountOnClose
+                v-bind:footer="false" popupContainer="body">
+                <Setting></Setting>
+            </a-drawer>
+        </div>
+
+    </a-config-provider>
 </template>
 <script lang="ts" setup>
 import Setting from "@/layout/components/Setting.vue";
