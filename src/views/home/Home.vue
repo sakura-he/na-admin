@@ -77,10 +77,6 @@ onMounted(() => {
         easing: 'cubic-bezier(0.5, 0, 0, 1)',
         // 执行方式（缩放）
         scale: 0.9,
-        // 使用执行之前的回调函数
-        beforeReveal: function (ele) {
-            console.log(ele);
-        }
     })
 })
 </script>

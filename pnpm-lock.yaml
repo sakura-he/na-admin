@@ -7,6 +7,7 @@ specifiers:
   '@types/mockjs': ^1.0.7
   '@types/node': ^18.11.17
   '@types/nprogress': ^0.2.0
+  '@types/scrollreveal': ^0.0.8
   '@vitejs/plugin-vue': ^4.0.0
   '@vitejs/plugin-vue-jsx': ^3.0.0
   '@vueuse/core': ^9.9.0
@@ -58,6 +59,7 @@ devDependencies:
   '@types/lodash': 4.14.191
   '@types/mockjs': 1.0.7
   '@types/node': 18.11.18
+  '@types/scrollreveal': 0.0.8
   '@vitejs/plugin-vue': 4.0.0_vite@4.0.4+vue@3.2.45
   '@vitejs/plugin-vue-jsx': 3.0.0_vite@4.0.4+vue@3.2.45
   autoprefixer: 10.4.13_postcss@8.4.21
@@ -691,6 +693,10 @@ packages:
   /@types/nprogress/0.2.0:
     resolution: {integrity: sha512-1cYJrqq9GezNFPsWTZpFut/d4CjpZqA0vhqDUPFWYKF1oIyBz5qnoYMzR+0C/T96t3ebLAC1SSnwrVOm5/j74A==}
     dev: false
+
+  /@types/scrollreveal/0.0.8:
+    resolution: {integrity: sha512-HwD3vSmxjEozI4+uHY7pPxB47gppsv0racBHZreEQFC6K1kBKaIUkCTwUMH6gGFEDmLrgOckfGsTvR/n2yyV6g==}
+    dev: true
 
   /@types/web-bluetooth/0.0.16:
     resolution: {integrity: sha512-oh8q2Zc32S6gd/j50GowEjKLoOVOwHP/bWVjKJInBwQqdOYMdPrf1oVlelTlyfFK3CKxL1uahMDAr+vy8T7yMQ==}
