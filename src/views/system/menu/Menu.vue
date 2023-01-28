@@ -37,9 +37,12 @@
                             @click="onAddMenu">
                             添加子菜单
                         </a-button>
-                        <a-button size="small" type="secondary" v-bind:status="'danger'" @click="onDeleteMenu">
-                            删除菜单
-                        </a-button>
+                        <a-popconfirm content="确定要删除吗?" type="info" cancel-text="取消" ok-text="删除">
+                            <a-button size="small" type="secondary" v-bind:status="'danger'" @click="onDeleteMenu">
+                                删除菜单
+                            </a-button>
+                        </a-popconfirm>
+
                     </a-button-group>
                 </div>
                 <div>
@@ -165,7 +168,7 @@ function onAddMenu() {
 }
 function onDeleteMenu() { }
 // 监听菜单详情在编辑之后的提交事件
-function onMenuDetailFormUpdate(){}
+function onMenuDetailFormUpdate() { }
 </script>
 
 <style scoped lang="scss">

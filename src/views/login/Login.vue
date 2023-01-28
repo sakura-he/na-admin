@@ -34,63 +34,67 @@
                     <div class="login__err-msg"></div>
                 </div>
 
-
-                <!-- 登录表单1 -->
-                <a-form layout="vertical" :model="form" class="login__form" v-if="loginType === LOGIN_TYPE_ENUM.user">
-                    <a-form-item field="11">
-                        <a-input v-model="form.username" placeholder="用户名" id="username">
-                            <template #prefix>
-                                <icon-user />
-                            </template>
-                        </a-input>
-                    </a-form-item>
-                    <a-form-item field="post">
-                        <a-input-password v-model="form.userpw" placeholder="密码">
-                            <template #prefix>
-                                <icon-lock />
-                            </template>
-                        </a-input-password>
-                    </a-form-item>
-
-                    <a-form-item field="isRemenber">
-                        <a-checkbox v-model="form.isRemenber">记住密码</a-checkbox>
-                        <a-button html-type="submit" class="tw-ml-auto" type="text" size="mini">
-                            忘记密码
-                        </a-button>
-                    </a-form-item>
-                    <a-form-item>
-                        <a-button html-type="submit" long type="primary" @click="onLogin" :loading="loading">
-                            登录
-                        </a-button>
-                    </a-form-item>
-                </a-form>
-                <!-- 登录表单2 -->
-                <a-form layout="vertical" :model="form" class="login__form" v-if="loginType === LOGIN_TYPE_ENUM.phone">
-                    <a-form-item field="11">
-                        <a-input v-model="form.username" placeholder="手机号" id="username">
-                            <template #prefix>
-                                <icon-mobile />
-                            </template>
-                        </a-input>
-                    </a-form-item>
-                    <a-form-item field="post">
-                        <a-input-group class="tw-w-full">
-                            <a-input v-model="form.userpw" placeholder="验证码">
+                <PageTransition in-name="fade-in" out-name="fade-out" mode="out-in" >
+                    <!-- 登录表单1 -->
+                    <a-form layout="vertical" :model="form" class="login__form"
+                        v-if="loginType === LOGIN_TYPE_ENUM.user">
+                        <a-form-item field="11">
+                            <a-input v-model="form.username" placeholder="用户名" id="username">
                                 <template #prefix>
-                                    <icon-message />
+                                    <icon-user />
                                 </template>
                             </a-input>
-                            <a-button :loading="loading" @click="getPhoneCode" :disabled="count != 0">
-                                {{ count=== 0 ? '获取验证码' : `${count} 秒后重试`}}
+                        </a-form-item>
+                        <a-form-item field="post">
+                            <a-input-password v-model="form.userpw" placeholder="密码">
+                                <template #prefix>
+                                    <icon-lock />
+                                </template>
+                            </a-input-password>
+                        </a-form-item>
+
+                        <a-form-item field="isRemenber">
+                            <a-checkbox v-model="form.isRemenber">记住密码</a-checkbox>
+                            <a-button html-type="submit" class="tw-ml-auto" type="text" size="mini">
+                                忘记密码
                             </a-button>
-                        </a-input-group>
-                    </a-form-item>
-                    <a-form-item>
-                        <a-button html-type="submit" long type="primary" @click="onLogin" :loading="loading">
-                            手机号登录
-                        </a-button>
-                    </a-form-item>
-                </a-form>
+                        </a-form-item>
+                        <a-form-item>
+                            <a-button html-type="submit" long type="primary" @click="onLogin" :loading="loading">
+                                登录
+                            </a-button>
+                        </a-form-item>
+                    </a-form>
+                    <!-- 登录表单2 -->
+                    <a-form layout="vertical" :model="form" class="login__form"
+                        v-if="loginType === LOGIN_TYPE_ENUM.phone">
+                        <a-form-item field="11">
+                            <a-input v-model="form.username" placeholder="手机号" id="username">
+                                <template #prefix>
+                                    <icon-mobile />
+                                </template>
+                            </a-input>
+                        </a-form-item>
+                        <a-form-item field="post">
+                            <a-input-group class="tw-w-full">
+                                <a-input v-model="form.userpw" placeholder="验证码">
+                                    <template #prefix>
+                                        <icon-message />
+                                    </template>
+                                </a-input>
+                                <a-button :loading="loading" @click="getPhoneCode" :disabled="count != 0">
+                                    {{ count=== 0 ? '获取验证码' : `${count} 秒后重试`}}
+                                </a-button>
+                            </a-input-group>
+                        </a-form-item>
+                        <a-form-item>
+                            <a-button html-type="submit" long type="primary" @click="onLogin" :loading="loading">
+                                手机号登录
+                            </a-button>
+                        </a-form-item>
+                    </a-form>
+                </PageTransition>
+
                 <div>
                     <a-space class="tw-text-[20px] tw-text-c-2">
                         <span class="tw-text-body-3 tw-text-c-1">其他登录方式:</span>
@@ -105,10 +109,10 @@
                         <icon-github class="hover:tw-text-p-6 hover:tw-cursor-pointer"
                             v-if="loginType !== LOGIN_TYPE_ENUM.github"
                             @click="switchLoginType(LOGIN_TYPE_ENUM.github)" />
-                        <icon-google-circle-fill class="hover:tw-text-p-6 hover:tw-cursor-pointer"
+                        <icon-google class="hover:tw-text-p-6 hover:tw-cursor-pointer"
                             v-if="loginType !== LOGIN_TYPE_ENUM.google"
                             @click="switchLoginType(LOGIN_TYPE_ENUM.google)" />
-                        <icon-twitter-circle-fill class="hover:tw-text-p-6 hover:tw-cursor-pointer"
+                        <icon-twitter class="hover:tw-text-p-6 hover:tw-cursor-pointer"
                             v-if="loginType !== LOGIN_TYPE_ENUM.twitter"
                             @click="switchLoginType(LOGIN_TYPE_ENUM.twitter)" />
                     </a-space>
@@ -129,6 +133,7 @@ import DynamicIcon from '@/components/DynamicIcon.vue'
 import { useRoute, useRouter } from "vue-router";
 import ColorModeSwitch from '@/layout/components/ColorModeSwitch.vue'
 import { useCountDown } from '@/hooks/useCountDown'
+import PageTransition from '@/layout/components/PageTransition.vue'
 let userStore = useUserStore();
 let router = useRouter();
 let route = useRoute();
@@ -143,7 +148,7 @@ enum LOGIN_TYPE_ENUM {
     'twitter' = 5
 }
 // 当前登录方式
-let loginType = ref(LOGIN_TYPE_ENUM.phone);  // 默认账号密码登录
+let loginType = ref(LOGIN_TYPE_ENUM.user);  // 默认账号密码登录
 const images = [login1, login2, login3];
 const handleChange = (value: number) => { };
 let form = reactive({
@@ -192,7 +197,7 @@ function getPhoneCode() {
     if (count.value <= 0) {
         start(60);
     }
-   
+
 
 }
 </script>

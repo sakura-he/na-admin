@@ -49,6 +49,8 @@ export const useUserStore = defineStore(STORE_ID, {
         logout() {
             // 删除用户信息
             removePrefix(STORE_ID);
+            // 删除store数据
+            this.$reset();
             router.replace({ name: LOGIN });
         },
     },

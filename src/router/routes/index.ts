@@ -21,8 +21,8 @@ export function sortAsyncRoutes<AsyncRoutes extends Array<any>>(asyncRoutes: Asy
     });
     // 过滤路由项
     asyncRoutes = asyncRoutes.filter(route => {
+        // 在菜单中排除没有权限的路由
         if (!hasPermission(route.meta.roles || [])) {
-            console.log('验证')
             return false
         }
         if (route.children && route.children.length) {
