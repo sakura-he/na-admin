@@ -1,0 +1,1 @@
+import{_ as e}from"./_plugin-vue_export-helper-c27b6911.js";import{o as n,b as o}from"./runtime-core.esm-bundler-bda9e85e.js";const r={};function c(t,s){return n(),o("div",null,"dolumen index")}const l=e(r,[["render",c]]);export{l as default};
