@@ -26,9 +26,6 @@ request.interceptors.request.use(
         let userStore = useUserStore();
         const token = userStore.token;
         if (token) {
-            if (!config.headers) {
-                config.headers = {};
-            }
            ( config.headers as AxiosHeaders).set('Authorization',`Bearer ${token}`)  ;
         }
         return config;
