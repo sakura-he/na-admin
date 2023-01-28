@@ -1,0 +1,1 @@
+import{n as r}from"./use-popup-manager-465c96d3.js";import{e as a,v as l,S as m}from"./runtime-core.esm-bundler-a91919e4.js";const u=s=>{const o={},n=a([]),t=()=>{if(o.value){const e=r(o.value,s);(e.length!==n.value.length||e.toString()!==n.value.toString())&&(n.value=e)}};return l(()=>t()),m(()=>t()),{children:o,components:n}};export{u};

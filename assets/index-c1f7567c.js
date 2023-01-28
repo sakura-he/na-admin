@@ -1,1 +1,0 @@
-import{d as r,f as i,R as t}from"./runtime-core.esm-bundler-bda9e85e.js";const c=r({props:{icon:{type:String,required:!1},backupIcon:{type:String,required:!1}},setup(n){let e;return()=>n.icon||n.backupIcon?n.icon&&(e=i(n.icon),typeof e!="string")?t(e):n.backupIcon?(e=i(n.backupIcon),typeof e!="string"?t(e):t(i("icon-file"))):null:null}});export{c as _};
