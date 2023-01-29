@@ -1,6 +1,6 @@
 <template>
-    <div class="page">
-        <a-page-header class="header" title="菜单管理" subtitle="编辑全局菜单项" :show-back="false"></a-page-header>
+    <div class="page" >
+        <NaPageHeader full class="tw-mb-4" title="菜单管理" subtitle="编辑全局菜单项" :show-back="false" />
         <a-alert>以下操作均为模拟操作</a-alert>
         <!-- <a-spin style="width:100%" :loading="true"> -->
         <div na-loading-text="加载中" v-loading="getSystemMenuListLoading"
@@ -63,6 +63,7 @@
 </template>
 
 <script setup lang="ts">
+import NaPageHeader from '@/components/NaPageHeader.vue';
 import DynamicIcon from "@/components/DynamicIcon.vue";
 import MenuDetailForm from "./components/MenuDetailForm.vue";
 import { useNavigateStore } from "@/store";
