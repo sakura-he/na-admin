@@ -156,8 +156,30 @@
 		},
 		"children": [
 			{
+				"name": "Role",
+				"component": "system/role/Role",
+				"path": "role",
+				"meta": {
+					"type": 2,
+					"title": "角色管理",
+					"layout": "LayoutSide",
+					"roles": [
+						"admin"
+					],
+					"requiresAuth": true,
+					"icon": "icon-settings",
+					"locale": "string",
+					"hideInMenu": false,
+					"hideChildrenInMenu": false,
+					"activeMenu": "string",
+					"order": 1,
+					"noAffix": false,
+					"ignoreCache": false
+				}
+			},
+			{
 				"name": "Menu",
-				"component": "menu/Menu",
+				"component": "system/menu/Menu",
 				"path": "menu-manage",
 				"meta": {
 					"type": 2,

@@ -62,6 +62,7 @@ declare module '@vue/runtime-core' {
     DynamicIcon: typeof import('./src/components/DynamicIcon.vue')['default']
     IconSelector: typeof import('./src/components/IconSelector.vue')['default']
     NaChart: typeof import('./src/components/NaChart.vue')['default']
+    NaPageHeader: typeof import('./src/components/NaPageHeader.vue')['default']
     RightTop: typeof import('./src/components/RightTop.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
