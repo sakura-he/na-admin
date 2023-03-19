@@ -5,3 +5,8 @@ export function getSystemMenuList() {
         method: "get",
     });
 }
+export function getSystemDemoTable() {
+    return request("/api/system/demoTable", {
+        method: "get",
+    });
+}

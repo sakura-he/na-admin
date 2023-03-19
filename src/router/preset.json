@@ -14,7 +14,7 @@
 			"hideInMenu": false,
 			"hideChildrenInMenu": false,
 			"activeMenu": "string",
-			"order": 6,
+			"order": 1,
 			"noAffix": false,
 			"ignoreCache": false,
 			"noCancelResident":true
