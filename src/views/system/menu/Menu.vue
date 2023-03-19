@@ -1,6 +1,9 @@
 <template>
     <div class="page" >
-        <NaPageHeader full class="tw-mb-4" title="菜单管理" subtitle="编辑全局菜单项" :show-back="false" />
+        <div  class="tw-mb-4">
+            <NaPageHeader full title="菜单管理" subtitle="编辑全局菜单项" :show-back="false" />
+        </div>
+        
         <a-alert>以下操作均为模拟操作</a-alert>
         <!-- <a-spin style="width:100%" :loading="true"> -->
         <div na-loading-text="加载中" v-loading="getSystemMenuListLoading"

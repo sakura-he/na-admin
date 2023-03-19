@@ -26,5 +26,6 @@ declare module "vue-router" {
         ignoreCache?: boolean; //是否不缓存标签页,不缓存的标签页切换回来会重新加载
         link?: boolean|string;  // 是否是链接形式
         iframe?: boolean;  // 打开方式是否是 iframe, 需要同时设置 link 选项为 true
+        componentPath?:string;  // 定义路由时的componentName字段, 系统自动把componentName字段的值复制到此处,不要填写
     }
 }

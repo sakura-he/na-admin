@@ -2,6 +2,7 @@ import { RouteRecordRaw, RouterView } from "vue-router";
 import { MenuEnum } from "../type";
 import { hasPermission } from '@/utils/permission'
 import LinkComponent from '@/layout/components/Link.vue'
+import NotMatchComponent from '@/views/exception/not-match-component/NotMatchComponent.vue' 
 // 匹配views里面所有的.vue文件，动态引入
 const modules = import.meta.glob("/src/views/**/*.vue");
 // modules应该是一下结构的对象
@@ -60,6 +61,7 @@ function coverRoute(asyncRoute: any, parentPath: string): RouteRecordRaw {
         meta: asyncRoute.meta || {},
         component: <any>null,
     };
+    routeRecordRaw.meta!.componentPath = asyncRoute.component; 
     // 如果当前路由配置对象是一个目录,则组件为viewrouter
     if (asyncRoute.meta.type === MenuEnum["Catelog"] && asyncRoute.children && asyncRoute.children.length) {
         routeRecordRaw.component = RouterView;
@@ -87,7 +89,7 @@ export function loadComponent4String(component: string) {
         throw Error(`找不到组件${component}，请确保组件路径正确`);
     } catch (error) {
         console.error(error);
-        return RouterView;
+        return NotMatchComponent;
     }
 }
 // 寻找vue router的路由记录对象中第一个页面,作为登陆后跳转的首页
