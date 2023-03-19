@@ -1,0 +1,1 @@
+import{d as s,o,c as n,e as l,D as i,E as r,i as d,b as u,G as p}from"./index-30c7a380.js";const _=s({__name:"ListsEdit",setup(c){console.log("阿斯蒂芬",new Date);let e=12;return(m,t)=>(o(),n("div",null,[l(" edit "),i(u("input",{type:"text","onUpdate:modelValue":t[0]||(t[0]=a=>p(e)?e.value=a:e=a)},null,512),[[r,d(e)]])]))}});export{_ as default};

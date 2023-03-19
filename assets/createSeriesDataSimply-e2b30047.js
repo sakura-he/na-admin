@@ -1,0 +1,1 @@
+import{aB as c,a1 as t,cg as m,ci as o}from"./install-32865521.js";function S(e,a,n){a=c(a)&&{coordDimensions:a}||t({encodeDefine:e.getEncode()},a);var r=e.getSource(),s=m(r,a).dimensions,i=new o(s,e);return i.initData(r,n),i}export{S as c};
