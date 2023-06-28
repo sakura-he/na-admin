@@ -21,7 +21,7 @@
         >
             <!-- 多标签栏 -->
             <Transition name="tab">
-                <MutipleTab
+                <multipleTab
                     v-if="configStore.tabBar"
                     class="mutiple-tab"
                 />
@@ -53,7 +53,7 @@ import Main from "@/layout/components/Main.vue";
 import Menu from "@/layout/components/Menu.vue";
 import { useConfigStore } from "@/store/modules/config/index";
 import { deviceEnum } from "@/store/modules/config/types";
-import MutipleTab from "../components/MutipleTab.vue";
+import multipleTab from "@/layout/components/MultipleTab.vue";
 
 let configStore = useConfigStore();
 let menuCollapse = ref(false); // 控制侧边菜单是否收起

@@ -2,7 +2,7 @@
     <div class="container">
         <a-tabs type="line" :hide-content="true" :editable="true" :justify="true" :active-key="currentTabIndex"
             @tab-click="onTabclick" @delete="onCloseTab" class="tabs">
-            <a-tab-pane :key="tabIndex" v-for="(tab, tabIndex) in multipleTabs.tabs"
+            <a-tab-pane :key="tabIndex" v-for="(tab, tabIndex) in multipleTabsStore.tabs"
                 :closable="!tab?.meta?.residentTab">
                 <template v-slot:title>
                     <a-dropdown trigger="contextMenu">
@@ -54,7 +54,7 @@
 
                                 <template #default>
                                     <span>
-                                        {{ tab?.meta?.residentTab? "取消常驻标签页": "常驻标签页" }}
+                                        {{ tab?.meta?.residentTab ? "取消常驻标签页" : "常驻标签页" }}
                                     </span>
                                 </template>
                             </a-doption>
@@ -86,12 +86,17 @@
 </template>
 
 <script setup lang="ts">
-import { useMultipleTabs } from "@/store/modules/mutipleTab/index";
-import DynamicIcon from "../../components/DynamicIcon.vue";
-import { useRouter } from "vue-router";
-import { Ref } from "vue";
 import { useConfigStore } from "@/store";
-let multipleTabs = useMultipleTabs();
+import { CACHE_PREFIX, TABS_CACHE_NAME } from "@/store/modules/multipleTab/const";
+import { useMultipleTabs } from "@/store/modules/multipleTab";
+import { CACHE_TABS_CACHE_NAME } from '@/store/modules/multipleTab/const'
+import createCache from "@/utils/cache";
+import { Ref, onMounted } from "vue";
+import { useRouter } from "vue-router";
+import DynamicIcon from "../../components/DynamicIcon.vue";
+import { TTabRoute} from '@/store/modules/multipleTab'
+let multipleTabsStore = useMultipleTabs();
+const multipleCache = createCache(CACHE_PREFIX);
 let router = useRouter();
 const currentRoute = ref(router.currentRoute);
 let configStore = useConfigStore();
@@ -99,36 +104,60 @@ let menuCollapse = inject<Ref<boolean>>("menuCollapse")!;
 let updateMenuCollapse = inject<(value: boolean) => void>("updateMenuCollapse")!;
 function onTabclick(evt: string | number) {
     if (typeof evt === "string") evt = Number.parseInt(evt);
-    router.push(multipleTabs.tabs[evt].fullPath);
+    router.push(multipleTabsStore.tabs[evt].fullPath);
 }
 
 function onCloseRigthTabs(evt: string | number) {
     if (typeof evt === "string") evt = Number.parseInt(evt);
-    multipleTabs.closeRigthTabs(evt);
+    multipleTabsStore.closeRigthTabs(evt);
 }
 function onCloseLeftTabs(evt: string | number) {
     if (typeof evt === "string") evt = Number.parseInt(evt);
-    multipleTabs.closeLeftTabs(evt);
+    multipleTabsStore.closeLeftTabs(evt);
 }
 function onCloseOtherTabs(evt: string | number) {
     if (typeof evt === "string") evt = Number.parseInt(evt);
-    multipleTabs.closeOtherTabs(evt);
+    multipleTabsStore.closeOtherTabs(evt);
 }
 function onCloseAllTabs(evt: string | number) {
     if (typeof evt === "string") evt = Number.parseInt(evt);
-    multipleTabs.closeAllTabs(evt);
+    multipleTabsStore.closeAllTabs(evt);
 }
 function onCloseTab(evt: string | number) {
     if (typeof evt === "string") evt = Number.parseInt(evt);
-    multipleTabs.closeTab(evt);
+    multipleTabsStore.closeTab(evt);
 }
 function onSwitchResidentTab(evt: string | number) {
     if (typeof evt === "string") evt = Number.parseInt(evt);
-    multipleTabs.switchResidentTab(evt);
+    multipleTabsStore.switchResidentTab(evt);
 }
 let currentTabIndex = computed(() => {
-    return multipleTabs.tabs.findIndex((item) => item.fullPath === currentRoute.value.fullPath);
+    return multipleTabsStore.tabs.findIndex((item) => item.fullPath === currentRoute.value.fullPath);
 });
+// 关闭页面或者刷新页面时保存 tabs 到本地缓存
+function updateTabs2LocalStorage() {
+    multipleCache.removeCache(TABS_CACHE_NAME);
+    multipleCache.removeCache(CACHE_TABS_CACHE_NAME)
+    multipleCache.setCache(TABS_CACHE_NAME, JSON.stringify(multipleTabsStore.tabs));
+    multipleCache.setCache(CACHE_TABS_CACHE_NAME, JSON.stringify(multipleTabsStore.cacheList));
+}
+// setup create 钩子
+function onCreate() {
+    window.addEventListener('beforeunload', updateTabs2LocalStorage)
+}
+onCreate();
+onMounted(() => {
+    // 初始化多标签页
+    let multipleCacheValue: string | null = multipleCache.getCache(TABS_CACHE_NAME);
+    let tabs = multipleCacheValue ? JSON.parse(multipleCacheValue) as Array<TTabRoute> : null;
+    if (tabs instanceof Array && tabs.length) {
+        const multipleStore = useMultipleTabs();
+        multipleStore.initTab(tabs);
+    }
+})
+onUnmounted(() => {
+    window.removeEventListener('beforeunload', updateTabs2LocalStorage);
+})
 </script>
 
 <style scoped lang="scss">
@@ -179,7 +208,7 @@ let currentTabIndex = computed(() => {
 }
 
 :deep(.arco-tabs-nav-type-line .arco-tabs-tab) {
-    margin-left: var(--size-3) ;
+    margin-left: var(--size-3);
     margin-right: var(--size-3);
 }
 </style>

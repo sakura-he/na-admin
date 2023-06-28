@@ -2,19 +2,23 @@ import { router } from "@/router";
 import { WHITE_LIST } from "@/router/routes/constant";
 import createCache from "@/utils/cache";
 import { defineStore } from "pinia";
-import { RouteLocationNormalized } from "vue-router";
-const STORE_ID = "mutiple_tab";
-type TTabRoute = Omit<RouteLocationNormalized, "matched" | "redirectedFrom">;
-interface IMultipleTabState {
+import { RouteLocationNormalized, useRouter } from "vue-router";
+import { CACHE_PREFIX, TABS_CACHE_NAME } from "./const";
+const STORE_ID = "multiple_tab";
+const MUTIPLE_TAB = 'mutiple_table'
+export type TTabRoute = Omit<RouteLocationNormalized, "matched" | "redirectedFrom">;
+export interface IMultipleTabState {
     tabs: TTabRoute[];
     cacheList: Set<string>;
+    hasRefresh: boolean
 }
-let cache = createCache(STORE_ID);
+let multipleCache = createCache(CACHE_PREFIX);
 export const useMultipleTabs = defineStore(STORE_ID, {
     state: (): IMultipleTabState => {
         return {
             tabs: [],
             cacheList: new Set(),
+            hasRefresh: false
         };
     },
     actions: {
@@ -25,12 +29,14 @@ export const useMultipleTabs = defineStore(STORE_ID, {
             }
             this.tabs.push(route);
             this.updateCacheList();
-
         },
         // 是否允许添加新的路由对象到数组中
         canAddRoute(route: TTabRoute): boolean {
+
             let hasTab = this.tabs.findIndex((tab) => tab.fullPath === route.fullPath) >= 0;
+            console.log('route', route)
             let noAffix = route.meta?.noAffix;
+            console.log('canAddRoute', hasTab, noAffix)
             return !(hasTab || noAffix);
         },
         // 根据当前打开的标签页更新缓存的页面组件
@@ -43,7 +49,6 @@ export const useMultipleTabs = defineStore(STORE_ID, {
             });
             this.cacheList = newCacheList;
         },
-
         // 判断是否缓存标签页
         canCacheTab(route: TTabRoute): boolean {
             if (!route.name || typeof route.name == "symbol" || route?.meta?.ignoreCache || WHITE_LIST.includes(route.name!)) {
@@ -63,6 +68,7 @@ export const useMultipleTabs = defineStore(STORE_ID, {
             }
             // 在keep-alive的缓存数组中同时一并删除(currentRouter是.value不存在)
             this.updateCacheList();
+
         },
         // 关闭当前标签页
         closeCurrentTab(index: number) {
@@ -95,6 +101,7 @@ export const useMultipleTabs = defineStore(STORE_ID, {
             if (!hasCurrentRoute) {
                 router.replace(this.tabs[tabIndex].fullPath);
             }
+
         },
         // 关闭左侧标签页
         closeLeftTabs(tabIndex: number) {
@@ -153,6 +160,29 @@ export const useMultipleTabs = defineStore(STORE_ID, {
                 this.tabs[index].meta.residentTab = !this.tabs[index].meta.residentTab;
             }
         },
+        // 初始化标签页
+        initTab(tabs: Array<TTabRoute>) {
+            tabs.forEach((tab: any, index: number) => {
+                this.addTab(tab);
+            })
+        },
+        // 获取当前路由对应的 tab s
+        getCurrentTab() {
+            const currentRoute = unref(router.currentRoute);
+            return this.$state.tabs.find(tab => {
+                return tab.fullPath === currentRoute.fullPath ? tab : null
+            })
+        },
+        // 设置指定标签页的标题，如果没有传 tab（标签页）则默认设置当前打开的标签页的标题
+        setTabTitle(title: string, tab?: TTabRoute) {
+            let currentTab = tab || this.getCurrentTab();
+            console.log('currentTab',currentTab)
+            if (currentTab) {
+                currentTab.meta.title = title;
+                return
+            }
+            new Error('未找到要设置标题的标签页')
+        }
     },
 });
 
@@ -161,11 +191,18 @@ type useUserStoreType = typeof useMultipleTabs;
 export function subscribeMultipleTabsStore(store: ReturnType<useUserStoreType>) {
     console.log("开始监听");
     store.$subscribe(
+
         (mutation, state) => {
+            // store.updateCacheList();
+            // if (state.hasRefresh) {
+            //     multipleCache.removeCache(TABS_CACHE_NAME);
+            //     multipleCache.setCache(TABS_CACHE_NAME, JSON.stringify(store.tabs));
+            // }
+            state.hasRefresh = true;
             if (!state.tabs.length) {
                 router.push('/')
             }
         },
-        { detached: true }
+        { detached: true, immediate: true }
     );
 }

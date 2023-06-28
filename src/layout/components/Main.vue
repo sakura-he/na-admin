@@ -14,7 +14,7 @@
 
 <script setup lang="ts">
 import { RouterView, useRoute } from "vue-router";
-import { useMultipleTabs } from "@/store/modules/mutipleTab";
+import { useMultipleTabs } from "@/store/modules/multipleTab";
 import { useConfigStore } from "@/store";
 import PageTransition from '@/layout/components/PageTransition.vue';
 import Iframe from '@/layout/components/Iframe.vue'
