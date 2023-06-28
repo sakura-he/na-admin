@@ -24,6 +24,7 @@ export const useMultipleTabs = defineStore(STORE_ID, {
     actions: {
         // 添加新的标签页
         addTab(route: TTabRoute) {
+            console.log('开始添加标签页',route)
             if (!this.canAddRoute(route)) {
                 return;
             }
@@ -162,9 +163,9 @@ export const useMultipleTabs = defineStore(STORE_ID, {
         },
         // 初始化标签页
         initTab(tabs: Array<TTabRoute>) {
-            tabs.forEach((tab: any, index: number) => {
-                this.addTab(tab);
-            })
+            if(tabs&&tabs instanceof Array&&tabs.length){
+                this.tabs = tabs
+            }
         },
         // 获取当前路由对应的 tab s
         getCurrentTab() {
